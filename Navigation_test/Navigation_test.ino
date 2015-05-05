@@ -20,10 +20,32 @@ For hardware connections and software details access project website
 #include "NanoSatisfi_MAG3110.h"
 //#include<math.h>
 
+// ********************LCD INITIALIZATIONS*************************
+#include <LiquidCrystal.h> //For LCD
+
+// pin names
+int RS = 12; // RS: the number of the Arduino pin that is connected to the RS pin on the LCD
+int enable = 11; // enable: the number of the Arduino pin that is connected to the enable pin on the LCD
+// d0, d1, d2, d3, d4, d5, d6, d7: the numbers of the Arduino pins that are connected to the corresponding data pins on the LCD. d0, d1, d2, and d3 are optional; if omitted, the LCD will be controlled using only the four data lines (d4, d5, d6, d7).
+// initialize the library with the numbers of the interface pins
+int d4 = 5;
+int d5 = 4;
+int d6 = 3;
+int d7 = 2;
+
+String topStr = "";
+String bottomStr = "";
+int dist2targ;
+
+// ******************************************************************
+
 
 // initialize some variables
 float dist2target = 2.0;    // (mi) needs to be changed by another function
-float targetCoords[] = {21.285625, -157.673312}; //Latitude, longitude Sandy Beach Park
+//float targetCoords[] = {21.285625, -157.673312}; //Latitude, longitude Sandy Beach Park
+//float targetCoords[] = {21.294292, -157.817138}; //Latitude, longitude Midfield
+float targetCoords[] = {21.295792, -157.817084}; //Latitude, longitude NorthEast parking lot
+//float targetCoords[] = {21.295337, -157.817170}; //Latitude, longitude SouthEast parking lot
 float currCoords[2], oldCoords[2];    // Lat/Lon readings to determine drift
 float driftVect[2], targetVect[2], headingVect[2];    // dift is for current, target is from current pos to target and heading is both combined
 float northVect[2] = {1.0, 0.0};
@@ -66,6 +88,7 @@ void setup() {
   Serial.println("----Starting GPS Testing---");
   pinMode(rightMotorPin, OUTPUT);
   pinMode(leftMotorPin, OUTPUT);
+  lcd_setup();
 }
 
 void loop() {
@@ -169,6 +192,7 @@ void right_turn() {
     if(currHead - headEpsilon < targetHead) {
       digitalWrite(leftMotorPin, LOW);
       digitalWrite(rightMotorPin, LOW);
+      
       return;
     }
   }
@@ -191,11 +215,52 @@ void right_turn() {
 LEFT_TURN reads heading and rotates right motor until within headEpsilon (var) degrees from target heading
 */
 void left_turn() {
+  if(currHead + headEpsilon > targetHead) {
+    if(currHead - headEpsilon < targetHead) {
+      digitalWrite(leftMotorPin, LOW);
+      digitalWrite(rightMotorPin, LOW);
+      return;
+    }
+  }
+  diffHead = targetHead - currHead;
+  if(diffHead >= -180) {
+    if (diffHead <=0) {
+      return;
+    }
+  }
+  if(diffHead >= 180) {
+    return;
+  }
   
+  digitalWrite(leftMotorPin, LOW);
+  digitalWrite(rightMotorPin, HIGH); 
+  currHead = mag.getHeading(mag.x_value(),mag.y_value(),mag.z_value());
+  left_turn();
 }
 
 
 
+// *******************************LCD FUNCTIONS********************************
+
+void lcd_setup() {
+  LiquidCrystal lcd(RS, enable, d4, d5, d6, d7);
+}
+
+void lcd_print_top_str() {
+  topStr = "";
+  topStr += "Targ: H:";
+  topStr += String(targetHead);
+  topStr += " D:";
+  topStr += String(dist2targ);
+}
+
+
+void lcd_print_bottom_str(char param) {
+  
+  if (param == "R") {lcd.print("Rgt");}
+  else if (param == "L") {lcd.print("Lft");}
+  else if (param == "S") {lcd.print("Str");}
+}
 
 
 
