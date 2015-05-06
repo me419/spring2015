@@ -1,75 +1,52 @@
 /*
-Navigation program
+  Arduino Starter Kit example
+ Project 11  - Crystal Ball
+ 
+ This sketch is written to accompany Project 11 in the
+ Arduino Starter Kit
+ 
+ Parts required:
+ 220 ohm resistor
+ 10 kilohm resistor
+ 10 kilohm potentiometer
+ 16x2 LCD screen
+ 
+ */
+ 
+// include the library code:
+#include <LiquidCrystal.h>
 
-- Read battery voltages
-- Get drift
-  - Read GPS coordinates
-  - Wait 15 sec
-  - Read GPS coordinates again
-- Navigate (while batteries above cut off power)
-  - Calculate target vector
-  - Calculate heading vector (subtract one another to get it)
-  - Calculate heading required in degrees
-  - Read magnetometer heading
-  - If headings offset for more than delta
-    - Calculate time to thrust for rotation
-    - Run single motor
-- Run both motor to go straight
-- Check battery voltage
+// initialize the library with the numbers of the interface pins
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
+// set up a constant for the tilt switchPin
+const int switchPin = 6;
 
-*/
+// variable to hold the value of the switchPin
+//int switchState = 0;
 
-//#include<math.h>
-//float lat1 = 21.285625;
-//float lon1 = -157.673312;
-//float lat2 = -21.285625;
-//float lon2 = 157.673312;
-//float var12 = atan(lat1/lon1);
-//float var11 = atan(lat1/lon2);
-//float var13 = atan(lat2/lon1);
-//float var14 = atan(lat2/lon2);
-//float var22 = atan2(lat1, lon1);
-//float var21 = atan2(lat1, lon2);
-//float var23 = atan2(lat2, lon1) + 2*PI;
-//float var24 = atan2(lat2, lon2) + 2*PI;
-//int var = 1;
+// variable to hold previous value of the switchpin
+//int prevSwitchState = 0;
+
+// a variable to choose which reply from the crystal ball
+int reply;
 
 void setup() {
-  Serial.begin(9600);
+  // set up the number of columns and rows on the LCD 
+  lcd.begin(16, 2);
 }
 
 void loop() {
-  
-//  Serial.println("ATAN: ");
-//  Serial.print("Q1: ");
-//  Serial.print(degrees(var11));
-//  Serial.print("  Q2: ");
-//  Serial.print(degrees(var12));
-//  Serial.print("  Q3: ");
-//  Serial.print(degrees(var13));
-//  Serial.print("  Q4: ");
-//  Serial.println(degrees(var14));
-//  Serial.println("ATAN2: ");
-//  Serial.print("Q1: ");
-//  Serial.print(degrees(var21));
-//  Serial.print("  Q2: ");
-//  Serial.print(degrees(var22));
-//  Serial.print("  Q3: ");
-//  Serial.print(degrees(var23));
-//  Serial.print("  Q4: ");
-//  Serial.println(degrees(var24));
-  if(Serial.available()) {
-    String var = "left";
-    if (var == "left")
-      Serial.println("if part.");
-    else
-      Serial.println("else part");
-  }
-  delay(1000);
+  lcd.clear();
+  delay(2000);
+  // set the cursor to column 0, line 0     
+  lcd.setCursor(0, 0);
+  // print some text
+  lcd.print("Hello");
+  // move the cursor to the second line
+  //  lcd.setCursor(0, 1);
+  delay(2000);
 }
-
-
 
 
   
