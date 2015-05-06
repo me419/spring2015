@@ -32,10 +32,10 @@ int d4 = 5;
 int d5 = 4;
 int d6 = 3;
 int d7 = 2;
+LiquidCrystal lcd(RS, enable, d4, d5, d6, d7);
 
-String topStr = "";
-String bottomStr = "";
-int dist2targ;
+//String topStr = "";
+//String bottomStr = "";
 
 // ******************************************************************
 
@@ -88,7 +88,6 @@ void setup() {
   Serial.println("----Starting GPS Testing---");
   pinMode(rightMotorPin, OUTPUT);
   pinMode(leftMotorPin, OUTPUT);
-  lcd_setup();
 }
 
 void loop() {
@@ -242,24 +241,44 @@ void left_turn() {
 
 // *******************************LCD FUNCTIONS********************************
 
-void lcd_setup() {
-  LiquidCrystal lcd(RS, enable, d4, d5, d6, d7);
+void clear_disp(){
+  lcd.clear();
 }
 
 void lcd_print_top_str() {
-  topStr = "";
-  topStr += "Targ: H:";
-  topStr += String(targetHead);
-  topStr += " D:";
-  topStr += String(dist2targ);
+  float distance;
+  lcd.setCursor(0, 0);
+  lcd.print("T H:");
+  lcd.print(targetHead);
+  lcd.print(" D:");
+  distance = dist2targ();
+  lcd.print(distance);
+}
+
+float dist2targ() {
+  float R = 3959.1*1760;
+  float lenDegEq = (R*2.0*PI)/(360.0);
+  float lat2 = targetCoords[0];
+  float lon2 = targetCoords[1];
+  float lat1 = currCoords[0];
+  float lon1 = currCoords[1];
+  float dlon = lon2 - lon1;
+  float dlat = lat2 - lat1;
+  float distLon = dlon*cos(lat1)*lenDegEq;
+  float distLat = dlon*lenDegEq;
+  float dist = sqrt(distLon*distLon + distLat*distLat);
+  return dist;
 }
 
 
 void lcd_print_bottom_str(char param) {
-  
-  if (param == "R") {lcd.print("Rgt");}
-  else if (param == "L") {lcd.print("Lft");}
-  else if (param == "S") {lcd.print("Str");}
+  lcd.setCursor(0, 1);
+  lcd.print("C H:");
+  lcd.print(currHead);
+  lcd.print(" T:");
+  if (param == 'R') {lcd.print("Rgt");}
+  else if (param == 'L') {lcd.print("Lft");}
+  else if (param == 'S') {lcd.print("Str");}
 }
 
 
