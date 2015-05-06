@@ -30,35 +30,44 @@
 // set pin numbers:
 const int buttonPin = 28;     // the number of the pushbutton pin
 int buttonState = 0; 
+boolean ran = false;
 
 void setup() {
   // initialize the pushbutton pin as an input:
-  pinMode(buttonPin, INPUT);     
+  pinMode(buttonPin, INPUT);
+  Serial.begin(9600);
 }
 
 boolean Cutdown_sequence() {
-  
-  
   int trigPin = 3;  //Trig
   int echoPin = 2;  //Echo
-  int cutPin = 30;  //Cutdown
-  int timerMinutes = 1;
+  int cutPin = 6;  //Cutdown
+  long timerMinutes = 1;
+  
   int count = 0;
   long duration;  //Measured duration in ms
+  long initTime = millis();
+  long mfkldsfkls;
   long dist,prevdist,time,prevtime; //Variables for determining velocity
   float velocity; //Velocity in m/s
   
   Servo myservo;
-  int pos = 65;
   myservo.attach(cutPin);
+  myservo.write(65);
   
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
   pinMode(cutPin, OUTPUT);
+  initTime = millis();
   time = millis();
   dist = 0;
+  Serial.println(initTime);
+  Serial.println(time);
+  Serial.println(time-initTime);
   
-  while(time < (1000*60*timerMinutes)){
+  //while(true){
+  while((time-initTime) < long(1000)*long(60)*long(timerMinutes)){
+    //Serial.println(time);
     // The sensor is triggered by a HIGH pulse of 10 or more microseconds.
     // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
     digitalWrite(trigPin, LOW);
@@ -77,14 +86,18 @@ boolean Cutdown_sequence() {
     prevtime = time;
     time = millis();
     dist = (duration/2) / 29.1; //distance in Centimeters
- 
+    
+    Serial.print(dist);
+    Serial.print(" ");
+    Serial.println(velocity);
+    
     velocity = (float(dist) - float(prevdist))/(float(time) - float(prevtime))*-10.0; //Velocity in m/s
     
     if(velocity > 3.5  && velocity < 7.0) { // Check if velocity is in range
       if(count > 0){      //Check if previous velocity was in range
         myservo.write(100);
         delay(1500);
-        myservo.write(60);
+        myservo.write(65);
         return true;
       }
       else{count += 1;}      //If previous was not in range, increment count
@@ -95,17 +108,23 @@ boolean Cutdown_sequence() {
   myservo.write(100);
   delay(1500);
   myservo.write(60);
-  return true;
+  return false;
 }
 
 void loop(){
   // read the state of the pushbutton value:
   buttonState = digitalRead(buttonPin);
+  
+  
 
   // check if the pushbutton is pressed.
   // if it is, the buttonState is HIGH:
   if (buttonState == HIGH) {} 
   else {
-    Cutdown_sequence();
+    if(ran == false){
+      Serial.println("Time");
+      Cutdown_sequence();
+      ran = true;
+    }
   }
 }
