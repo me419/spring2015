@@ -1,44 +1,22 @@
 /*
-  Button
- 
- Turns on and off a light emitting diode(LED) connected to digital  
- pin 13, when pressing a pushbutton attached to pin 2. 
- 
- 
- The circuit:
- * LED attached from pin 13 to ground 
- * pushbutton attached to pin 2 from +5V
- * 10K resistor attached to pin 2 from ground
- 
- * Note: on most Arduinos there is already an LED on the board
- attached to pin 13.
- 
- 
- created 2005
- by DojoDave <http://www.0j0.org>
- modified 30 Aug 2011
- by Tom Igoe
- 
- This example code is in the public domain.
- 
- http://www.arduino.cc/en/Tutorial/Button
- */
+me419 astronautics spring 2015
+Ultrasonic Sensor HC-SR04 based cutdown code
+
+When called, Cutdown_sequence will begin a 3 minute countdown timer.
+For the duration of the timer, the HC-SR04 Ultrasonic rangefinder will be 
+activated and measure distance to ground; if the distance is beyond the 
+range of the sensor, 0 is returned for the distance. At each step a numerical
+derivative is calculated to determine velocity and if velocity falls within a 
+predetermined range for 3 consecutive datapoints then a cutdown circuit
+on pin 0 is activated and the function will return True. If the proper velocity
+is not found during the 3 minutes, the cutdown circuit will be activated and
+the function will return False.
+
+*/
 
 #include <Servo.h>
 
-// constants won't change. They're used here to 
-// set pin numbers:
-const int buttonPin = 28;     // the number of the pushbutton pin
-int buttonState = 0; 
-
-void setup() {
-  // initialize the pushbutton pin as an input:
-  pinMode(buttonPin, INPUT);     
-}
-
 boolean Cutdown_sequence() {
-  
-  
   int trigPin = 3;  //Trig
   int echoPin = 2;  //Echo
   int cutPin = 30;  //Cutdown
@@ -98,14 +76,5 @@ boolean Cutdown_sequence() {
   return true;
 }
 
-void loop(){
-  // read the state of the pushbutton value:
-  buttonState = digitalRead(buttonPin);
-
-  // check if the pushbutton is pressed.
-  // if it is, the buttonState is HIGH:
-  if (buttonState == HIGH) {} 
-  else {
-    Cutdown_sequence();
-  }
-}
+void setup(){}
+void loop(){}
