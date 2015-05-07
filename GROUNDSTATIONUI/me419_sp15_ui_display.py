@@ -12,7 +12,7 @@ comport = 1
 class Ground_UI():
     def __init__(self):
         print "Starting Serial Connection..."
-        #self.serial_conn = self.init_conn(comport)
+        self.serial_conn = self.init_conn(comport)
         self.datalist = [[] for _ in range(14)]
         self.init_display()
 
@@ -119,10 +119,10 @@ class Ground_UI():
     def __call__(self):
         while True:
             try:
-                #self.data = ser.readline()
+                self.data = self.serial_conn.readline()
 
                 #test case
-                self.data  = next(d)
+                #self.data  = next(d)
 
                 procdata = self.data_proc(self.data)
                 if self.reading == [0]:
