@@ -2,6 +2,7 @@
 Navigation_test
 Fernando Aragon
 4/17/15 - Created
+5/6/15 - Added mag library functionality and change way to get GPS data
 
 Description:
 Test navigation algorithm by:
@@ -17,25 +18,11 @@ For hardware connections and software details access project website
 
 #include<TinyGPS.h>
 #include <Wire.h>
-#include "NanoSatisfi_MAG3110.h"
-//#include<math.h>
+#include "mag.h"
 
 // ********************LCD INITIALIZATIONS*************************
 #include <LiquidCrystal.h> //For LCD
-
-// pin names
-int RS = 12; // RS: the number of the Arduino pin that is connected to the RS pin on the LCD
-int enable = 11; // enable: the number of the Arduino pin that is connected to the enable pin on the LCD
-// d0, d1, d2, d3, d4, d5, d6, d7: the numbers of the Arduino pins that are connected to the corresponding data pins on the LCD. d0, d1, d2, and d3 are optional; if omitted, the LCD will be controlled using only the four data lines (d4, d5, d6, d7).
-// initialize the library with the numbers of the interface pins
-int d4 = 5;
-int d5 = 4;
-int d6 = 3;
-int d7 = 2;
-LiquidCrystal lcd(RS, enable, d4, d5, d6, d7);
-
-//String topStr = "";
-//String bottomStr = "";
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 // ******************************************************************
 
@@ -44,19 +31,24 @@ LiquidCrystal lcd(RS, enable, d4, d5, d6, d7);
 float dist2target = 2.0;    // (mi) needs to be changed by another function
 //float targetCoords[] = {21.285625, -157.673312}; //Latitude, longitude Sandy Beach Park
 //float targetCoords[] = {21.294292, -157.817138}; //Latitude, longitude Midfield
-float targetCoords[] = {21.295792, -157.817084}; //Latitude, longitude NorthEast parking lot
+//float targetCoords[] = {21.295792, -157.817084}; //Latitude, longitude NorthEast parking lot
 //float targetCoords[] = {21.295337, -157.817170}; //Latitude, longitude SouthEast parking lot
+float targetCoords[] = {21.296980, -157.816864}; //Latitude, longitude fire hydrant by Sakamaki
+//float targetCoords[] = {21.296580, -157.816864}; //Latitude, longitude sign across dole
+//float targetCoords[] = {21.296820, -157.817440}; //Latitude, longitude fire hydrant towards law building
+
 float currCoords[2], oldCoords[2];    // Lat/Lon readings to determine drift
 float driftVect[2], targetVect[2], headingVect[2];    // dift is for current, target is from current pos to target and heading is both combined
 float northVect[2] = {1.0, 0.0};
 float currHead, targetHead;    // actual heading and req heading to target ccordinates
 int headEpsilon = 5;    // correct course if heading is off by more than epsilon degrees
-int rotFactor;    //Need to figure out rotation deg/millisecond
-int driftDelay = 15000;    //ms to sleep between GPS readings
 float diffHead;
+bool newData;
+float goalDist = 0.003788;  // radius distance mission considered successful (20ft) 1mi=5280ft 
+int driftDelay = 15000;    //ms to sleep between GPS readings
 
-float volt1, volt2;    // battery voltage to start navigation
-float minVolt = 1.0;    // should change to cut-off voltage
+float motVolt;// battery voltage to start navigation
+float minVolt = 1.0;    // minimum cut-offvoltage 
 int rightMotorPin = 28;
 int leftMotorPin = 29;
 float earthR = 3959.1;    // Earths radius (miles)
@@ -64,11 +56,6 @@ float earthR = 3959.1;    // Earths radius (miles)
 //const float r2d = 180/PI;    // conv rads to degrees
 //const float d2r = PI/80;    //conv degrees to rads
 
-
-
-// initialize sensor instances
-TinyGPS gps;  //instance of gps
-NanoSatisfi_MAG3110 mag;    // instance of magnetometer
 
 // Initialize all programming flags
 bool requestFLAG = false;           // signals there's request pending
@@ -80,12 +67,16 @@ bool recordingFLAG = false;        // signals when is time to take picture
 int fligthtModeFLAG = 1;          // signals current operation mode (Ascent/Flight/Descent/Nav)
 int timeout = 2;
 
+// initialize sensor instances
+TinyGPS gps;  //instance of gps
+mag myMag;    // instance of magnetometer
+
+
 
 void setup() {
   Serial.begin(9600);  //Arduino-PC serial comm
   Serial1.begin(9600); // start GPS serial comm on Serial1
-  mag.configMag();          // turn the MAG3110 on
-  Serial.println("----Starting GPS Testing---");
+  myMag.init_setup();          // turn the MAG3110 on
   pinMode(rightMotorPin, OUTPUT);
   pinMode(leftMotorPin, OUTPUT);
 }
@@ -103,10 +94,11 @@ Tasks:  Read GPS coordinates
         Calculate vector
 */
 void get_drift() {
-  unsigned long age;    //needed for GPS function
-  gps.f_get_position(&oldCoords[0], &oldCoords[1], &age);
+  queue_gps(&oldCoords[0], &oldCoords[1]);
+  //unsigned long age;    //needed for GPS function
+  //gps.f_get_position(&oldCoords[0], &oldCoords[1], &age);
   delay(driftDelay);
-  gps.f_get_position(&currCoords[0], &currCoords[1], &age);
+  queue_gps(&currCoords[0], &currCoords[1]);
   //float latDelt = (currCoords[0] - oldCoords[0])*((earthR*2*pi)/360.0);    //formulas to calculate lat/lon deltas
   //float lonDelt = (currCoords[1] - oldCoords[1])*earthR*cos(currCoords[0]*d2r);
   vector_diff(oldCoords[0], oldCoords[1], currCoords[0], currCoords[1], &driftVect[0]);
@@ -124,9 +116,10 @@ Taskes:  Calculate target vector
 */
 void navigation_loop() {
   String turn = "straight";
-  unsigned long age;    //needed for GPS function
-  while (volt1 > minVolt && volt2 > minVolt && dist2target > 0.003788) {    // voltages within limit and more than 20ft from target
-    gps.f_get_position(&currCoords[0], &currCoords[1], &age);
+  
+//  while (motVolt > minVolt && dist2target > goalDist) {    // voltages within limit and more than 20ft from target
+  while(true) {
+    queue_gps(&currCoords[0], &currCoords[1]);
     vector_diff(currCoords[0], currCoords[1], targetCoords[0], targetCoords[1], &targetVect[0]);
     headingVect[0] = targetVect[0] - driftVect[0]; headingVect[1] = targetVect[1] - driftVect[1];
     //ratio = (vector_dot(&headingVect, &northVect))/(vector_mag(&headingVect)*vector_mag(northVect));
@@ -135,7 +128,10 @@ void navigation_loop() {
       targetHead = degrees(angle + 2*PI);
     else
       targetHead = degrees(angle);
-    currHead = mag.getHeading(mag.x_value(),mag.y_value(),mag.z_value());
+      
+//    myMag.get_values(&x, &y, &z);
+    currHead = getting_heading();
+//    currHead = mag.getHeading(mag.x_value(),mag.y_value(),mag.z_value());
     diffHead = targetHead - currHead;
     if (diffHead >= 0) {
       if (diffHead < 180) {turn = "left";}
@@ -149,14 +145,14 @@ void navigation_loop() {
     if (turn == "straight") {
       digitalWrite(leftMotorPin,HIGH);
       digitalWrite(rightMotorPin, HIGH);
+      lcd_print('S');
     }
     if (turn == "left")
       left_turn();
     if (turn == "right")
       right_turn();
     
-  //volt1 =
-  //volt2 = 
+  //motVolt =
   }
 }
 
@@ -205,8 +201,10 @@ void right_turn() {
       }
   }
   digitalWrite(leftMotorPin, HIGH);
-  digitalWrite(rightMotorPin, LOW); 
-  currHead = mag.getHeading(mag.x_value(),mag.y_value(),mag.z_value());
+  digitalWrite(rightMotorPin, LOW);
+  lcd_print('R');
+//  currHead = mag.getHeading(mag.x_value(),mag.y_value(),mag.z_value()); 
+  currHead = getting_heading();
   right_turn();
 }
 
@@ -232,8 +230,10 @@ void left_turn() {
   }
   
   digitalWrite(leftMotorPin, LOW);
-  digitalWrite(rightMotorPin, HIGH); 
-  currHead = mag.getHeading(mag.x_value(),mag.y_value(),mag.z_value());
+  digitalWrite(rightMotorPin, HIGH);
+  lcd_print('L');
+  currHead = getting_heading();
+//  currHead = mag.getHeading(mag.x_value(),mag.y_value(),mag.z_value());
   left_turn();
 }
 
@@ -245,7 +245,7 @@ void clear_disp(){
   lcd.clear();
 }
 
-void lcd_print_top_str() {
+void lcd_print(char param) {
   float distance;
   lcd.setCursor(0, 0);
   lcd.print("T H:");
@@ -253,6 +253,14 @@ void lcd_print_top_str() {
   lcd.print(" D:");
   distance = dist2targ();
   lcd.print(distance);
+  
+  lcd.setCursor(0, 1);
+  lcd.print("C H:");
+  lcd.print(currHead);
+  lcd.print(" T:");
+  if (param == 'R') {lcd.print("Rgt");}
+  else if (param == 'L') {lcd.print("Lft");}
+  else if (param == 'S') {lcd.print("Str");}
 }
 
 float dist2targ() {
@@ -271,16 +279,31 @@ float dist2targ() {
 }
 
 
-void lcd_print_bottom_str(char param) {
-  lcd.setCursor(0, 1);
-  lcd.print("C H:");
-  lcd.print(currHead);
-  lcd.print(" T:");
-  if (param == 'R') {lcd.print("Rgt");}
-  else if (param == 'L') {lcd.print("Lft");}
-  else if (param == 'S') {lcd.print("Str");}
+void queue_gps(float *latitude, float *longitude) {
+  unsigned long age;    //needed for GPS function
+  float flat, flon;
+  newData = false;
+  for (unsigned long start = millis(); millis() - start < 1000;) {
+    while (Serial1.available()) {
+      char c = Serial1.read(); //get GPS data
+      if (gps.encode(c)) // Did a new valid sentence come in?
+        newData = true;
+    }
+  }
+  if (newData) {
+    gps.f_get_position(&flat, &flon, &age);
+    *latitude = flat;
+    *longitude = flon;
+  }
 }
 
+int getting_heading() {
+  int heading;
+  float x, y, z;
+  myMag.get_values(&x, &y, &z);
+  heading = myMag.get_heading(x, y);
+  return heading;
+}
 
 
 

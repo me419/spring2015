@@ -144,16 +144,18 @@ void check_for_request(int secTimeOut) {
       transmissionTime[0] = startTime.toInt();
     if (transmissionTime[1] != endTime.toInt())
       transmissionTime[1] = endTime.toInt();
-//    Serial.print("Printing lat: ");  //DEBUGGING
-//    Serial.println(lat);   //DEBUGGING
-//    Serial.print("Printing lon: ");  //DEBUGGING
-//    Serial.println(lon);   //DEBUGGING
-//    Serial.print("Printing abort: ");  //DEBUGGING
-//    Serial.println(abortMsg);   //DEBUGGING
-//    Serial.print("Printing startTime: ");  //DEBUGGING
-//    Serial.println(startTime);   //DEBUGGING
-//    Serial.print("Printing endTime: ");  //DEBUGGING
-//    Serial.println(endTime);   //DEBUGGING
+      
+      
+    Serial.print("Printing lat: ");  //DEBUGGING
+    Serial.println(lat);   //DEBUGGING
+    Serial.print("Printing lon: ");  //DEBUGGING
+    Serial.println(lon);   //DEBUGGING
+    Serial.print("Printing abort: ");  //DEBUGGING
+    Serial.println(abortMsg);   //DEBUGGING
+    Serial.print("Printing startTime: ");  //DEBUGGING
+    Serial.println(startTime);   //DEBUGGING
+    Serial.print("Printing endTime: ");  //DEBUGGING
+    Serial.println(endTime);   //DEBUGGING
   }
   
 }
