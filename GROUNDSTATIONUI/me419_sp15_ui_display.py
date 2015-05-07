@@ -20,7 +20,22 @@ def init_conn(COMPORT , BAUDRATE = 9600,TIMEOUT = 0 ):
     return serial.Serial ('COM%i'%COMPORT, BAUDRATE, timeout= TIMEOUT )
 
 def data_proc(data):
-    return None, None, None
+    """
+    Input data format:
+    (Internal temperature[C], External temperature[C], Air Pressure[Pa],
+    Longitude[dd], Latitude[dd], Altitude[dd], Velocity[m/s]
+    Roll[dd], Pitch[dd], Yaw[dd], Roll_rate[dd/s], Pitch_rate[dd/s], yaw_rate[dd/s]
+    Arduino Voltage)
+    """
+    def dd2dms(dd):
+        mnt,sec = divmod(dd*3600,60)
+        deg,mnt = divmod(mnt,60)
+        return deg,mnt,sec
+
+    datalist = data.split(',')
+    datalist = [float(i) for i in datalist]
+    datalist[3:6] = [dd2dms(i) for i in datalist[3:6]]
+    return *datalist
 
 def data_display(*args):
     for arg in args:
