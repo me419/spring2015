@@ -14,6 +14,7 @@ class mag {
     void raw_values(float *x, float *y, float *z);
     void get_values(float *x, float *y, float *z);
     int get_heading(float x, float y);
+    void calibrate(int duration);
   private:
     float x_scale;
     float y_scale;

@@ -28,19 +28,19 @@ LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 
 // initialize some variables
-float dist2target = 2.0;    // (mi) needs to be changed by another function
+//float distance;    // (mi) needs to be changed by another function
 //float targetCoords[] = {21.285625, -157.673312}; //Latitude, longitude Sandy Beach Park
 //float targetCoords[] = {21.294292, -157.817138}; //Latitude, longitude Midfield
 //float targetCoords[] = {21.295792, -157.817084}; //Latitude, longitude NorthEast parking lot
 //float targetCoords[] = {21.295337, -157.817170}; //Latitude, longitude SouthEast parking lot
-float targetCoords[] = {21.296980, -157.816864}; //Latitude, longitude fire hydrant by Sakamaki
+//float targetCoords[] = {21.296980, -157.816864}; //Latitude, longitude fire hydrant by Sakamaki
 //float targetCoords[] = {21.296580, -157.816864}; //Latitude, longitude sign across dole
-//float targetCoords[] = {21.296820, -157.817440}; //Latitude, longitude fire hydrant towards law building
+float targetCoords[] = {21.296820, -157.817440}; //Latitude, longitude fire hydrant towards law building
 
 float currCoords[2], oldCoords[2];    // Lat/Lon readings to determine drift
 float driftVect[2], targetVect[2], headingVect[2];    // dift is for current, target is from current pos to target and heading is both combined
 float northVect[2] = {1.0, 0.0};
-float currHead, targetHead;    // actual heading and req heading to target ccordinates
+int currHead, targetHead;    // actual heading and req heading to target ccordinates
 int headEpsilon = 5;    // correct course if heading is off by more than epsilon degrees
 float diffHead;
 bool newData;
@@ -55,6 +55,10 @@ float earthR = 3959.1;    // Earths radius (miles)
 //const float pi = 3.141592;
 //const float r2d = 180/PI;    // conv rads to degrees
 //const float d2r = PI/80;    //conv degrees to rads
+
+
+int LEDPin = 13;
+bool LEDState = false;
 
 
 // Initialize all programming flags
@@ -76,13 +80,78 @@ mag myMag;    // instance of magnetometer
 void setup() {
   Serial.begin(9600);  //Arduino-PC serial comm
   Serial1.begin(9600); // start GPS serial comm on Serial1
-  myMag.init_setup();          // turn the MAG3110 on
+  Wire.begin();
+  lcd.begin(16, 2);
+  myMag.init_setup(); // turn the MAG3110 on
+  myMag.define(1,1,1);
   pinMode(rightMotorPin, OUTPUT);
   pinMode(leftMotorPin, OUTPUT);
+  
+//  *****************CALIBRATION*****************
+  pinMode(LEDPin, OUTPUT);
+  digitalWrite(LEDPin, LOW);
+// variables for calibration loop
+  float xArr[200];
+  float yArr[200];
+  float zArr[200];
+  int xmin, xmax, ymax, ymin, zmin, zmax;
+  // calibration loop
+  for(int i = 0; i < 200; i++) {
+    //read x, y, z values and add to array
+    myMag.raw_values(&xArr[i], &yArr[i], &zArr[i]);
+    
+    //set initial values for all minimums and maximums
+    if(i == 0){
+      
+      xmin = xArr[i];
+      xmax = xArr[i];
+      
+      ymin = yArr[i];
+      ymax = yArr[i];
+      
+      zmin = zArr[i];
+      zmax = zArr[i]; 
+    }
+  
+    //check to see if current datum is the minimum or maximum x-value
+    if (xmax < xArr[i]){xmax = xArr[i];}
+    if (xmin > xArr[i]){xmin = xArr[i];}
+  
+    //check to see if current datum is the minimum or maximum y-value
+    if (ymax < yArr[i]){ymax = yArr[i];}
+    if (ymin > yArr[i]){ymin = yArr[i];}
+    
+    //check to see if current datum is the minimum or maximum z-value
+    if (zmax < zArr[i]){zmax = zArr[i];}
+    if (zmin > zArr[i]){zmin = zArr[i];}
+    
+    if(LEDState) {
+      digitalWrite(LEDPin, LOW);
+      LEDState = false;
+    }
+    else if (!LEDState) {
+      digitalWrite(LEDPin, HIGH);
+      LEDState = true;
+    }
+    delay(100); //delay between each datum
+  }
+  
+  lcd.setCursor(0,0);
+  lcd.print("Done calibrating");
+  digitalWrite(LEDPin, LOW);
+  
+  float xVal = 1.0/(xmax - xmin);
+  float yVal = 1.0/(ymax - ymin);
+  float zVal = 1.0/(zmax - zmin);
+  myMag.define(xVal, yVal, zVal);
+  delay(2000);
+  lcd.clear();
+
+//***************CALIBRATION*********************
 }
 
 void loop() {
-  get_drift();
+  //get_drift();
   navigation_loop();
 }
 
@@ -102,6 +171,10 @@ void get_drift() {
   //float latDelt = (currCoords[0] - oldCoords[0])*((earthR*2*pi)/360.0);    //formulas to calculate lat/lon deltas
   //float lonDelt = (currCoords[1] - oldCoords[1])*earthR*cos(currCoords[0]*d2r);
   vector_diff(oldCoords[0], oldCoords[1], currCoords[0], currCoords[1], &driftVect[0]);
+//  Serial.print("vector_driff:");
+//  Serial.println(driftVect[0]);
+//  Serial.print(", ");
+//  Serial.println(driftVect[0]);
 }
 
 /*
@@ -119,6 +192,7 @@ void navigation_loop() {
   
 //  while (motVolt > minVolt && dist2target > goalDist) {    // voltages within limit and more than 20ft from target
   while(true) {
+    Serial.println("In while loop");
     queue_gps(&currCoords[0], &currCoords[1]);
     vector_diff(currCoords[0], currCoords[1], targetCoords[0], targetCoords[1], &targetVect[0]);
     headingVect[0] = targetVect[0] - driftVect[0]; headingVect[1] = targetVect[1] - driftVect[1];
@@ -246,6 +320,19 @@ void clear_disp(){
 }
 
 void lcd_print(char param) {
+//  int heading;
+//  lcd.setCursor(0, 0);
+//  lcd.print(currCoords[0]);
+//  lcd.print(", ");
+//  lcd.print(currCoords[1]);
+//  lcd.setCursor(0, 1);
+//  heading = getting_heading();
+//  lcd.print(heading);
+//  lcd.setCursor(7, 1);
+//  lcd.print(param);
+  
+  
+  
   float distance;
   lcd.setCursor(0, 0);
   lcd.print("T H:");
@@ -256,54 +343,20 @@ void lcd_print(char param) {
   
   lcd.setCursor(0, 1);
   lcd.print("C H:");
-  lcd.print(currHead);
+  if  (newData) {lcd.print(currHead);}
+  else {lcd.print("NF");}
   lcd.print(" T:");
   if (param == 'R') {lcd.print("Rgt");}
   else if (param == 'L') {lcd.print("Lft");}
   else if (param == 'S') {lcd.print("Str");}
 }
 
-float dist2targ() {
-  float R = 3959.1*1760;
-  float lenDegEq = (R*2.0*PI)/(360.0);
-  float lat2 = targetCoords[0];
-  float lon2 = targetCoords[1];
-  float lat1 = currCoords[0];
-  float lon1 = currCoords[1];
-  float dlon = lon2 - lon1;
-  float dlat = lat2 - lat1;
-  float distLon = dlon*cos(lat1)*lenDegEq;
-  float distLat = dlon*lenDegEq;
-  float dist = sqrt(distLon*distLon + distLat*distLat);
-  return dist;
-}
 
 
-void queue_gps(float *latitude, float *longitude) {
-  unsigned long age;    //needed for GPS function
-  float flat, flon;
-  newData = false;
-  for (unsigned long start = millis(); millis() - start < 1000;) {
-    while (Serial1.available()) {
-      char c = Serial1.read(); //get GPS data
-      if (gps.encode(c)) // Did a new valid sentence come in?
-        newData = true;
-    }
-  }
-  if (newData) {
-    gps.f_get_position(&flat, &flon, &age);
-    *latitude = flat;
-    *longitude = flon;
-  }
-}
 
-int getting_heading() {
-  int heading;
-  float x, y, z;
-  myMag.get_values(&x, &y, &z);
-  heading = myMag.get_heading(x, y);
-  return heading;
-}
+
+
+
 
 
 
@@ -329,9 +382,53 @@ Navigation program
 
 */
 
+//*************************************WORKED***********************************
 
 
 
+
+void queue_gps(float *latitude, float *longitude) {
+  unsigned long age;    //needed for GPS function
+  float flat, flon;
+  newData = false;
+  for (unsigned long start = millis(); millis() - start < 1000;) {
+    while (Serial1.available()) {
+      char c = Serial1.read(); //get GPS data
+      if (gps.encode(c)) // Did a new valid sentence come in?
+        newData = true;
+    }
+  }
+  if (newData) {
+    gps.f_get_position(&flat, &flon, &age);
+    *latitude = flat;
+    *longitude = flon;
+  }
+}
+
+
+int getting_heading() {
+  int heading;
+  float x, y, z;
+  myMag.get_values(&x, &y, &z);
+  heading = myMag.get_heading(x, y);
+  return heading;
+}
+
+
+float dist2targ() {
+  float R = 3959.1*1760;  // distance in ft
+  float lenDegEq = (R*2.0*PI)/(360.0);
+  float lat2 = targetCoords[0];
+  float lon2 = targetCoords[1];
+  float lat1 = currCoords[0];
+  float lon1 = currCoords[1];
+  float dlon = lon2 - lon1;
+  float dlat = lat2 - lat1;
+  float distLon = dlon*cos(lat1)*lenDegEq;
+  float distLat = dlon*lenDegEq;
+  float dist = sqrt(distLon*distLon + distLat*distLat);
+  return dist;
+}
 
 
 
