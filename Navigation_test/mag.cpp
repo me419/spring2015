@@ -6,9 +6,9 @@ mag::mag(){
 }
 
 void mag::define(float xVal, float yVal, float zVal) {
-  x_scale= xVal;  // 1.0/(-384 + 448); //offset scale factor: 1.0/(max_x - min_x)
-  y_scale= yVal;  // 1.0/(330 + 497);  //offset scale factor: 1.0/(max_y - min_y)
-  z_scale= zVal;  // 1.0/(252 - 188);  //offset scale factor: 1.0/(max_z - min_z)
+  x_scale= xVal;  //1.0/(-384 + 448); //offset scale factor: 1.0/(max_x - min_x)
+  y_scale= yVal;  //1.0/(330 + 497);  //offset scale factor: 1.0/(max_y - min_y)
+  z_scale= zVal;  //1.0/(252 - 188);  //offset scale factor: 1.0/(max_z - min_z)
 }
 
 void mag::init_setup() {
