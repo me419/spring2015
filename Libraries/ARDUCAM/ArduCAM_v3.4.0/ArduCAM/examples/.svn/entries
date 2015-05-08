@@ -1,0 +1,79 @@
+10
+
+dir
+24
+https://github.com/me419/spring2015.git/trunk/Libraries/ARDUCAM/ArduCAM_v3.4.0/ArduCAM/examples
+https://github.com/me419/spring2015.git
+
+
+
+2015-05-06T03:51:52.000000Z
+9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+049dca4a-9d9e-a2ea-99e3-ce57b7db7bff
+
+ArduCAM_OV5642_Camera_Playback
+dir
+
+ArduCAM_OV7660_Camera_Playback
+dir
+
+ArduCAM_OV7670_Camera_Playback
+dir
+
+ArduCAM_OV7725_Camera_Playback
+dir
+
+ArduCAM_OV7675_Camera_Playback
+dir
+
+UTFT_Demo_320x240
+dir
+
+ArduCAM_Yun_OV2640_Digital_Camera
+dir
+
+ArduCAM_SPI_BUS_TEST
+dir
+
+ArduCAM_OV2640_Digital_Camera
+dir
+
+ArduCAM_SPI_OV2640_FIFO_UART
+dir
+
+ArduCAM_Yun_OV2640_Camera_Playback
+dir
+
+ArduCAM_OV5642_Digital_Camera
+dir
+
+ArduCAM_I2C_TEST
+dir
+
+ArduCAM_OV2640_Camera_Playback
+dir
+
+ArduCAM_SPI_OV5642_FIFO_UART
+dir
+
+ArduCAM_MT9D111_Camera_Playback
+dir
+
+ArduCAM_OV3640_Camera_Playback
+dir
+

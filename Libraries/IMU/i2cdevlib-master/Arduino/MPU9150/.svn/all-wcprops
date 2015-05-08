@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/MPU9150
+END
+MPU9150.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/MPU9150/MPU9150.cpp
+END
+MPU9150_9Axis_MotionApps41.h
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/MPU9150/MPU9150_9Axis_MotionApps41.h
+END
+helper_3dmath.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/MPU9150/helper_3dmath.h
+END
+MPU9150.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/MPU9150/MPU9150.h
+END
+library.json
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/MPU9150/library.json
+END

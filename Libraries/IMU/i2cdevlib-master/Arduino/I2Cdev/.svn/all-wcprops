@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/I2Cdev
+END
+I2Cdev.h
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/I2Cdev/I2Cdev.h
+END
+keywords.txt
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/I2Cdev/keywords.txt
+END
+library.json
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/I2Cdev/library.json
+END
+I2Cdev.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/I2Cdev/I2Cdev.cpp
+END

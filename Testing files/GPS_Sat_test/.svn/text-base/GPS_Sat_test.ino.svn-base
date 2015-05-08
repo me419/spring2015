@@ -1,0 +1,82 @@
+//#include <SoftwareSerial.h> //Not needed with Arduino Mega
+#include <TinyGPS.h>
+
+/* Author: Fernando Aragon
+   Date: 2/27/2015
+   For: GP-635 connected to Arduino Mega
+   Notes: This code demonstrates simple use of a TinyGPS library.
+   Wiring ():
+   This example uses Serial 1 in Arduino Mega for communication.
+   Refer to UHABS avionics wiring guide in project website.
+*/
+
+TinyGPS gps;
+//SoftwareSerial ss(4, 3);
+
+void setup()
+{
+  Serial.begin(115200); // Arduino-PC serial comm
+  Serial1.begin(9600); // start GPS serial comm on Serial1
+  Serial.println("----Starting GPS Testing---");
+  Serial.println();
+}
+
+void loop()
+{
+  bool newData = false;
+  unsigned long chars;
+  unsigned short sentences, failed;
+
+  // For one second we parse GPS data and report some key values
+  for (unsigned long start = millis(); millis() - start < 1000;)
+  {
+    while (Serial1.available())
+    {
+      char c = Serial1.read(); //get GPS data
+      //Serial.print(c); // print raw data to serial port
+      if (gps.encode(c)) // Did a new valid sentence come in?
+        newData = true;
+    }
+  }
+
+  // If we have new data get important parameters and display
+  if (newData)
+  {
+    float flat, flon;
+    unsigned long age;
+    unsigned long date;
+    unsigned long time;
+ 
+    gps.f_get_position(&flat, &flon, &age);
+    gps.get_datetime(&date,&time,&age);
+    Serial.print("TIME=");
+    Serial.print(time);
+    Serial.print(" DATE=");
+    Serial.print(date);
+    Serial.print(" AGE=");
+    Serial.print(age);
+    Serial.print(" Altitude=");
+    Serial.print(gps.altitude());
+    Serial.print(" SPEED");
+    Serial.print(gps.speed());
+    Serial.print(" LAT=");
+    Serial.print(flat == TinyGPS::GPS_INVALID_F_ANGLE ? 0.0 : flat, 6);
+    Serial.print(" LON=");
+    Serial.print(flon == TinyGPS::GPS_INVALID_F_ANGLE ? 0.0 : flon, 6);
+    Serial.print(" SAT=");
+    Serial.print(gps.satellites() == TinyGPS::GPS_INVALID_SATELLITES ? 0 : gps.satellites());
+    Serial.print(" PREC=");
+    Serial.print(gps.hdop() == TinyGPS::GPS_INVALID_HDOP ? 0 : gps.hdop());
+  }
+  
+  //cherck status of GPS
+  gps.stats(&chars, &sentences, &failed);
+  Serial.print(" CHARS=");
+  Serial.print(chars);
+  Serial.print(" SENTENCES=");
+  Serial.print(sentences);
+  Serial.print(" CSUM ERR=");
+  Serial.println(failed);
+  if (chars == 0)
+    Serial.println("** No characters received from GPS: check wiring **");
+}

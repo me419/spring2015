@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/I2Cdev
+END
+I2Cdev.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/I2Cdev/I2Cdev.h
+END
+msp430_i2c.c
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/I2Cdev/msp430_i2c.c
+END
+keywords.txt
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/I2Cdev/keywords.txt
+END
+ArduinoWrapper.h
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/I2Cdev/ArduinoWrapper.h
+END
+msp430_i2c.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/I2Cdev/msp430_i2c.h
+END
+library.json
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/I2Cdev/library.json
+END
+I2Cdev.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/I2Cdev/I2Cdev.cpp
+END

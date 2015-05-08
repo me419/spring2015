@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/PIC18/MPU6050
+END
+MPU6050.h
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/PIC18/MPU6050/MPU6050.h
+END
+MPU6050.c
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/PIC18/MPU6050/MPU6050.c
+END

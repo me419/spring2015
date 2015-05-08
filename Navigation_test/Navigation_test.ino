@@ -215,6 +215,8 @@ void navigation_loop() {
     } 
     if (diffHead < -180) { turn = "left"; }
     if (diffHead >= 180) {turn = "right";}
+    if (abs(diffHead) <= 5) {turn == "straight";}
+    if (abs(currHead) >= 355) {turn == "straight";}
     
     if (turn == "straight") {
       digitalWrite(leftMotorPin,HIGH);

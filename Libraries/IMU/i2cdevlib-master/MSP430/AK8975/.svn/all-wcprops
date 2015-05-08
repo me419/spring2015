@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/AK8975
+END
+AK8975.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/AK8975/AK8975.cpp
+END
+library.json
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/AK8975/library.json
+END
+AK8975.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/AK8975/AK8975.h
+END

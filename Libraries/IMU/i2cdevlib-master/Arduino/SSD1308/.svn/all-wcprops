@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/SSD1308
+END
+example.pde
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/SSD1308/example.pde
+END
+SSD1308.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/SSD1308/SSD1308.cpp
+END
+SSD1308.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/SSD1308/SSD1308.h
+END
+fixedWidthFont.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/SSD1308/fixedWidthFont.h
+END
+library.json
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/SSD1308/library.json
+END

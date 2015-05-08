@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/EFM32/I2Cdev
+END
+I2Cdev.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/EFM32/I2Cdev/I2Cdev.h
+END
+I2Cdev.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/EFM32/I2Cdev/I2Cdev.cpp
+END

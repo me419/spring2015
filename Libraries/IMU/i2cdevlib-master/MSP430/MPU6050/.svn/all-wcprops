@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/MPU6050
+END
+MPU6050.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/MPU6050/MPU6050.h
+END
+helper_3dmath.h
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/MPU6050/helper_3dmath.h
+END
+MPU6050_6Axis_MotionApps20.h
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/MPU6050/MPU6050_6Axis_MotionApps20.h
+END
+library.json
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/MPU6050/library.json
+END
+MPU6050.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/MPU6050/MPU6050.cpp
+END
+MPU6050_9Axis_MotionApps41.h
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/MSP430/MPU6050/MPU6050_9Axis_MotionApps41.h
+END

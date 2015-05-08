@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/ADS1115
+END
+ADS1115.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/ADS1115/ADS1115.cpp
+END
+ADS1115.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/ADS1115/ADS1115.h
+END
+library.json
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/Arduino/ADS1115/library.json
+END

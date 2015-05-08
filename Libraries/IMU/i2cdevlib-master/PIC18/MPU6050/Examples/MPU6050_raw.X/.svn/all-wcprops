@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/PIC18/MPU6050/Examples/MPU6050_raw.X
+END
+l.obj
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/PIC18/MPU6050/Examples/MPU6050_raw.X/l.obj
+END
+main.c
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/PIC18/MPU6050/Examples/MPU6050_raw.X/main.c
+END
+funclist
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/PIC18/MPU6050/Examples/MPU6050_raw.X/funclist
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/IMU/i2cdevlib-master/PIC18/MPU6050/Examples/MPU6050_raw.X/Makefile
+END

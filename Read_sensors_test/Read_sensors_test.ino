@@ -58,7 +58,8 @@ int fligthtModeFLAG = 1;          // signals current operation mode (Ascent/Flig
 
 
 void setup() {
-  Serial.begin(9600);  //DEBUGGING
+  Serial2.begin(9600);  //DEBUGGING
+  Serial.begin(9600);
   Wire.begin();        // Join i2c bus
   myWShield.begin(); // Get Weather shield online
   
@@ -108,9 +109,12 @@ void read_sensors() {
   
   // Read GPS
   unsigned long age;    //needed for GPS function
-  lat = 00.000000;
-  lon = 00.000000;
-  alt = 00.00;
+//  lat = 00.000000;
+//  lon = 00.000000;
+   lon = -151.547689;
+   lat = 29.764590;
+
+  alt = 56.43;
   newData = false;
   for (unsigned long start = millis(); millis() - start < 1000;) {
     while (Serial1.available()) {
@@ -153,6 +157,7 @@ void read_sensors() {
 
 
   Serial.println(telemetryStr);
+  Serial2.print(telemetryStr);
 }
 
 

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/me419/spring2015.git/!svn/ver/24/trunk/Testing%20files/gps_reading_mag_calibration
+END
+gps_reading_mag_calibration.ino
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/me419/spring2015.git/!svn/ver/14/trunk/Testing%20files/gps_reading_mag_calibration/gps_reading_mag_calibration.ino
+END
+mag.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/me419/spring2015.git/!svn/ver/21/trunk/Testing%20files/gps_reading_mag_calibration/mag.cpp
+END
+mag.h
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/me419/spring2015.git/!svn/ver/21/trunk/Testing%20files/gps_reading_mag_calibration/mag.h
+END

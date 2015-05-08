@@ -1,0 +1,88 @@
+10
+
+dir
+24
+https://github.com/me419/spring2015.git/trunk/Libraries/IMU/i2cdevlib-master/Arduino
+https://github.com/me419/spring2015.git
+
+
+
+2015-05-06T03:51:52.000000Z
+9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+049dca4a-9d9e-a2ea-99e3-ce57b7db7bff
+
+ADS1115
+dir
+
+MPU9150
+dir
+
+DS1307
+dir
+
+MPR121
+dir
+
+LM73
+dir
+
+ADXL345
+dir
+
+BMA150
+dir
+
+TCA6424A
+dir
+
+AK8975
+dir
+
+ITG3200
+dir
+
+HMC5843
+dir
+
+L3G4200D
+dir
+
+SSD1308
+dir
+
+BMP085
+dir
+
+HMC5883L
+dir
+
+IAQ2000
+dir
+
+I2Cdev
+dir
+
+AD7746
+dir
+
+_Stub
+dir
+
+MPU6050
+dir
+

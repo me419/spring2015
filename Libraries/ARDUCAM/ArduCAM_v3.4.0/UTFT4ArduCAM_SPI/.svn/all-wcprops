@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/ARDUCAM/ArduCAM_v3.4.0/UTFT4ArduCAM_SPI
+END
+UTFT_SPI.h
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/ARDUCAM/ArduCAM_v3.4.0/UTFT4ArduCAM_SPI/UTFT_SPI.h
+END
+HW_AVR_SPI_defines.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/ARDUCAM/ArduCAM_v3.4.0/UTFT4ArduCAM_SPI/HW_AVR_SPI_defines.h
+END
+keywords.txt
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/ARDUCAM/ArduCAM_v3.4.0/UTFT4ArduCAM_SPI/keywords.txt
+END
+DefaultFonts_SPI.c
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/ARDUCAM/ArduCAM_v3.4.0/UTFT4ArduCAM_SPI/DefaultFonts_SPI.c
+END
+UTFT_SPI.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/me419/spring2015.git/!svn/ver/9/trunk/Libraries/ARDUCAM/ArduCAM_v3.4.0/UTFT4ArduCAM_SPI/UTFT_SPI.cpp
+END

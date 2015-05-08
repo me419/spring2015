@@ -29,7 +29,7 @@ int fligthtModeFLAG = 1;          // signals current operation mode (Ascent/Flig
 int timeout = 2;
 
 void setup() {
-  Serial3.begin(9600);    // Open serial port to XTEND (Connected to serial 3)
+  Serial2.begin(9600);    // Open serial port to XTEND (Connected to serial 3)
   Serial.begin(9600);    // Open serial pc comm port for debugging
   pinMode(txPin, OUTPUT);
   digitalWrite(txPin, HIGH);    // power XTEND
@@ -73,12 +73,12 @@ void check_for_request(int secTimeOut) {
   String lat, lon, startTime, endTime, abortMsg;
   
   int time = millis();
-  while (Serial3.available()) {
+  while (Serial2.available()) {
     if (secTimeOut*2000 < millis() - time) {
 //      Serial.println("Timed out...");  //DEBUGGING
       break;
     }
-    char incomingByte = Serial3.read();
+    char incomingByte = Serial2.read();
 //    Serial.println(incomingByte);  //DEBUGGING
     if (incomingByte == '<') {
       thru = true;
@@ -104,7 +104,7 @@ void check_for_request(int secTimeOut) {
       continue;
     }
     if (incomingByte == '$') {
-      current = Serial3.read();
+      current = Serial2.read();
       sep = false;
 //      Serial.println(current);  //DEBUGGING
       continue;
