@@ -53,29 +53,29 @@ class GS_readwrite():
         <  : Begin Packet
         >  : Close Packet
         $X : Signifies the start of datatype X
-        I  : Internal Temperature
-        E  : External Temperature
-        P  : Air Pressure
+        I  : Internal Temperature datatype
+        E  : External Temperature datatype
+        P  : Air Pressure datatype
         L  : Latitude, Longitude datatype
-        A  : Altitude
-        V  : Velocity
+        A  : Altitude datatype
+        U  : Velocity datatype
         T  : (Roll,Pitch,Yaw) datatype
-        R  : (Roll rate, Pitch rate, Yaw rate)
-        V  : Arduino Voltage
-        B  : Motor Voltage
-        Z  : Autopilot Mode
+        R  : (Roll rate, Pitch rate, Yaw rate) datatype
+        V  : Arduino Voltage datatype
+        B  : Motor Voltage datatype
+        Z  : Autopilot Mode datatype
         
         
         If a full packet is recieved the data is saved to the data dictionary
         with a timestamp as the key.
         """
         tempdata = ['' for _ in range(11)]
-        typedict = dict(zip(['I','E','P','L','A','V','T','R','V','B','Z'],range(11)))
+        typedict = dict(zip(['I','E','P','L','A','U','T','R','V','B','Z'],range(11)))
         def readpacket(p):
             parts = p.split('$')[1:]
             for part in parts:
                 tempdata[typedict[part[0]]] = part[1:]
-            return None
+            return tempdata
         packetcount = (self.buffer.count('<')+self.buffer.count('>'))/2
         bufferlist = self.buffer.split('<')
         packets = [s.replace('>','') for s in bufferlist[1:packetcount+1]]
