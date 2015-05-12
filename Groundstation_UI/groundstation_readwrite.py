@@ -69,10 +69,12 @@ class GS_readwrite():
         If a full packet is recieved the data is saved to the data dictionary
         with a timestamp as the key.
         """
-        tempdata = [0.,0.,0.,(0.,0.),0.,0.,(0.,0.,0.),(0.,0.,0.),0.,0.,0]
+        tempdata = ['' for _ in range(11)]
         typedict = dict(zip(['I','E','P','L','A','V','T','R','V','B','Z'],range(11)))
         def readpacket(p):
-            
+            parts = p.split('$')[1:]
+            for part in parts:
+                tempdata[typedict[part[0]]] = part[1:]
             return None
         packetcount = (self.buffer.count('<')+self.buffer.count('>'))/2
         bufferlist = self.buffer.split('<')
